@@ -1,0 +1,11 @@
+Task.start(fn -> 
+Task.start(fn -> 
+Process.sleep(3_000)
+IO.puts "solved?"
+end)
+raise "boom"
+end)
+
+Task.async(​fn​ -> Sender.send_email(​"​​hi@world.com"​) ​end​) |> Task.await()
+
+Task.async(fn -> Sender.send_email("aaa") end ) |> Task.await()
