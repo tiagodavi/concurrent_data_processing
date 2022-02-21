@@ -9,10 +9,16 @@ defmodule Sender do
     {:ok, email}
   end
 
+  # def notify_all(emails) do
+  #   emails
+  #   |> Enum.map(&Task.async(fn -> send_email(&1) end))
+  #   |> Enum.map(&Task.await/1)
+  # end
+
   def notify_all(emails) do
     emails
-    |> Enum.map(&Task.async(fn -> send_email(&1) end))
-    |> Enum.map(&Task.await/1)
+    |> Task.async_stream(&send_email/1, ordered: false)
+    |> Enum.to_list()
   end
 
   def build_emails do
