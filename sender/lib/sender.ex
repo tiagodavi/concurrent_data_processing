@@ -3,6 +3,11 @@ defmodule Sender do
   Documentation for `Sender`.
   """
 
+  def send_email("konnichiwa@world.com" = email) do
+    Process.sleep(3_000)
+    raise "Boommm #{email}"
+  end
+
   def send_email(email) do
     Process.sleep(3_000)
     IO.puts("Email to #{email} sent")
@@ -16,8 +21,8 @@ defmodule Sender do
   # end
 
   def notify_all(emails) do
-    emails
-    |> Task.async_stream(&send_email/1, ordered: false)
+    Sender.EmailTaskSupervisor
+    |> Task.Supervisor.async_stream_nolink(emails, &send_email/1, ordered: false)
     |> Enum.to_list()
   end
 
