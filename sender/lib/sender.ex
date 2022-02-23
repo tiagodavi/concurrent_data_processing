@@ -3,10 +3,12 @@ defmodule Sender do
   Documentation for `Sender`.
   """
 
-  def send_email("konnichiwa@world.com" = email) do
-    Process.sleep(3_000)
-    raise "Boommm #{email}"
-  end
+  # def send_email("konnichiwa@world.com" = email) do
+  #   Process.sleep(3_000)
+  #   raise "Boommm #{email}"
+  # end
+
+  def send_email("konnichiwa@world.com"), do: {:error, "konnichiwa@world.com"}
 
   def send_email(email) do
     Process.sleep(3_000)
