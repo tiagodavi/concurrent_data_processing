@@ -9,7 +9,7 @@ defmodule Jobber.Application do
   def start(_type, _args) do
     children = [
       # Starts a worker by calling: Jobber.Worker.start_link(arg)
-      # {Jobber.Worker, arg}
+      {DynamicSupervisor, strategy: :one_for_one, name: Jobber.JobRunner, max_seconds: 30}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
