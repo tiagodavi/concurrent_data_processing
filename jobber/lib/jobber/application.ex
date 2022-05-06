@@ -8,7 +8,7 @@ defmodule Jobber.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: Jobber.Worker.start_link(arg)
+      {Registry, keys: :unique, name: Jobber.JobRegistry},
       {DynamicSupervisor, strategy: :one_for_one, name: Jobber.JobRunner, max_seconds: 30}
     ]
 

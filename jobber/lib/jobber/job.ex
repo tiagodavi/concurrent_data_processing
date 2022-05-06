@@ -8,13 +8,23 @@ defmodule Jobber.Job do
   @five_secs 5_000
 
   def start_link(args) do
-    GenServer.start_link(__MODULE__, args)
+    args =
+      if Keyword.has_key?(args, :id) do
+        args
+      else
+        Keyword.put(args, :id, random_job_id())
+      end
+
+    id = Keyword.fetch!(args, :id)
+    type = Keyword.fetch!(args, :type)
+
+    GenServer.start_link(__MODULE__, args, name: via(id, type))
   end
 
   @impl true
   def init(args) do
     work = Keyword.fetch!(args, :work)
-    id = Keyword.get(args, :id, random_job_id())
+    id = Keyword.fetch!(args, :id)
     max_retries = Keyword.get(args, :max_retries, 3)
     state = %__MODULE__{id: id, work: work, max_retries: max_retries}
 
@@ -64,5 +74,9 @@ defmodule Jobber.Job do
 
   defp random_job_id do
     Base.url_encode64(:crypto.strong_rand_bytes(5), padding: false)
+  end
+
+  defp via(key, value) do
+    {:via, Registry, {Jobber.JobRegistry, key, value}}
   end
 end
