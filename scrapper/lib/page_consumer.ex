@@ -4,13 +4,13 @@ defmodule PageConsumer do
   require Logger
 
   def start_link(args \\ []) do
-    GenStage.start_link(__MODULE__, args, name: __MODULE__)
+    GenStage.start_link(__MODULE__, args)
   end
 
   def init(args) do
     Logger.info("PageConsumer: INIT")
 
-    subs_opts = [{PageProducer, min_demand: 1, max_demand: 2}]
+    subs_opts = [{PageProducer, min_demand: 0, max_demand: 1}]
 
     {:consumer, args, subscribe_to: subs_opts}
   end

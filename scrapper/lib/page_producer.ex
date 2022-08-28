@@ -10,10 +10,13 @@ defmodule PageProducer do
   def init(args) do
     Logger.info("PageProducer: INIT")
 
-    {:producer, args}
+    {:producer, args, buffer_size: 1}
   end
 
-  def scrape_pages(pages) when is_list(pages) do
+  @doc """
+  PageProducer.scrape(Utils.pages())
+  """
+  def scrape(pages) when is_list(pages) do
     GenStage.cast(__MODULE__, {:pages, pages})
   end
 
