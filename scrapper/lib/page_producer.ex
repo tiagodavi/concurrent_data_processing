@@ -10,7 +10,7 @@ defmodule PageProducer do
   def init(args) do
     Logger.info("PageProducer: INIT")
 
-    {:producer, args, buffer_size: 2}
+    {:producer, args, buffer_size: 100}
   end
 
   @doc """

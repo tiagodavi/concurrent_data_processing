@@ -9,6 +9,7 @@ defmodule Scrapper.Application do
   def start(_type, _args) do
     children = [
       PageProducer,
+      OnlinePageProducerConsumer,
       PageConsumerSupervisor
       # Supervisor.child_spec(PageConsumer, id: :page_consumer_a),
       # Supervisor.child_spec(PageConsumer, id: :page_consumer_b)
